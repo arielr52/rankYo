@@ -9,16 +9,23 @@
  */
 angular.module('rankYoApp')
   .controller('SurveyCtrl',['$scope','$http', function ($scope,$http) {
-    $scope.survey = {};
-    $scope.survey.questions = [
-      {category:'efficiency',question: 'The meeting objectives were well understood'},
-      {category:'efficiency',question: 'The meeting objectives have been meet'},
-      {category:'efficiency',question: 'The meeting was a good use of my time'},
-      {category:'engagement',question: 'Participants were engaged (contributed to the discussion and help in achieving the meeting objectives)'},
-      {category:'communication',question: 'I could understand what people were saying'},
-      {category:'communication',question: 'Participants listen to one another'},
-      {category:'culture',question: 'Participants were supportive and respectful to one another'}
-    ];
+
+    function reset(){
+      $scope.userMessage ='';
+      $scope.survey = {};
+      $scope.survey.questions = [
+        {category:'efficiency',question: 'The meeting objectives were well understood'},
+        {category:'efficiency',question: 'The meeting objectives have been meet'},
+        {category:'efficiency',question: 'The meeting was a good use of my time'},
+        {category:'engagement',question: 'Participants were engaged (contributed to the discussion and help in achieving the meeting objectives)'},
+        {category:'communication',question: 'I could understand what people were saying'},
+        {category:'communication',question: 'Participants listen to one another'},
+        {category:'culture',question: 'Participants were supportive and respectful to one another'}
+      ];
+    }
+
+    reset();
+
     $scope.submit = function(){
       console.log('survey='+JSON.stringify($scope.survey));
       var req = {
@@ -31,9 +38,11 @@ angular.module('rankYoApp')
       }
 
       $http(req).then(function(data ){
-        console.log('data='+JSON.stringify(data));
+        //console.log('data='+JSON.stringify(data));
+        reset();
+        $scope.userMessage ='Thank you for your input ';
       }, function(data ){
-        console.log('data='+JSON.stringify(data));
+        //console.log('data error ='+JSON.stringify(data));
       });
     }
   }]);
