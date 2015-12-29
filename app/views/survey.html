@@ -1,0 +1,68 @@
+<h2>Meeting Survey</h2>
+
+<form class="form-horizontal">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="form-group">
+        <label for="inputSubject" class="col-sm-3 control-label">Subject</label>
+
+        <div class="col-sm-9">
+          <input type="text" class="form-control" id="subject" ng-model="survey.subject">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputOwner" class="col-sm-3 control-label">Owner</label>
+
+        <div class="col-sm-9">
+          <input type="text" class="form-control" id="Owner" ng-model="survey.owner">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputDate" class="col-sm-3 control-label">Date</label>
+
+        <div class="col-sm-9">
+          <input type="date" class="form-control" id="date" ng-model="survey.date">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputDuration" class="col-sm-3 control-label">Duration</label>
+
+        <div class="col-sm-9">
+          <input type="number" class="form-control" id="duration" placeholder="in minutes" ng-model="survey.duration">
+        </div>
+      </div>
+      <table class="table">
+        <tr ng-repeat="item in survey.questions">
+          <td>
+            <label class="col-sm-12">{{item.question}}</label>
+
+            <div class="col-sm-offset-0 col-sm-10">
+              <label class="radio-inline">
+                <input type="radio" ng-model="item.select" value="1"> strongly disagree
+              </label>
+              <label class="radio-inline">
+                <input type="radio" ng-model="item.select" value="2"> disagree
+              </label>
+              <label class="radio-inline">
+                <input type="radio" ng-model="item.select" value="3"> neutral
+              </label>
+              <label class="radio-inline">
+                <input type="radio" ng-model="item.select" value="4"> agree
+              </label>
+              <label class="radio-inline">
+                <input type="radio" ng-model="item.select" value="5"> strongly agree
+              </label>
+            </div>
+          </td>
+        </tr>
+
+      </table>
+      <div class="form-group">
+        <div class="col-sm-offset-10 col-sm-2">
+          <button class="btn btn-primary" ng-click="submit()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
