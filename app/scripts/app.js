@@ -22,7 +22,7 @@ angular
       }).
       when('/reports', {
         templateUrl: 'views/reports.html',
-        controller: 'SurveyCtrl'
+        controller: 'ReportsCtrl'
       }).
       otherwise({
         redirectTo: '/survey'

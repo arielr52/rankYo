@@ -1,14 +1,14 @@
 //Lets require/import the HTTP module
 var http = require('http');
+var fs = require('fs');
 
 //Lets define a port we want to listen to
 const PORT=8080;
 
 //We need a function which handles requests and send response
 function handleRequest(request, response){
-  console.log('It Works!! Path Hit: ' + request.url);
-  console.log('It Works!! method Hit: ' + request.method);
-  console.log('request body: ' + JSON.stringify(request.body));
+  //console.log('It Works!! Path Hit: ' + request.url);
+  //console.log('It Works!! method Hit: ' + request.method);
   // Set CORS headers
   response.setHeader('Access-Control-Allow-Origin', '*');
   response.setHeader('Access-Control-Request-Method', '*');
@@ -18,11 +18,26 @@ function handleRequest(request, response){
     response.writeHead(200);
     response.end();
     return;
+  } else if (request.method == 'POST' && request.url === '/api/save') {
+    var body = '';
+    request.on('data', function (data) {
+      body += data;
+      //console.log("Partial body: " + body);
+    });
+    request.on('end', function () {
+      //console.log("Body: " + body);
+      //need to write to file
+      fs.appendFile('survey.json', body+'\n', function (err) {
+        if (err) return console.log(err);
+        console.log('survey.json, body='+body);
+      })
+    });
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.end('post received');
+  } else if (request.method == 'GET' && request.url === '/api/report') {
+    response.end('todo: report');
   }
   response.end('It Works!! Path Hit: ' + request.url);
- // response.header("Access-Control-Allow-Origin", "*");
- // response.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
- // response.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
 }
 
 //Create a server
