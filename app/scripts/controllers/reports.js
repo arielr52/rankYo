@@ -12,7 +12,9 @@ angular.module('rankYoApp')
 
     //owner,subject,category
     $scope.group = 'category';
-    var categoryNames = ['efficiency', 'communication', 'culture', 'engagement', 'all'];
+    $scope.filter ='';
+    $scope.catagory ='all';
+    var categoryNames = ['all','efficiency', 'communication', 'culture', 'engagement'];
     var req = {
       method: 'GET',
       url: 'http://localhost:8080/api/report'
@@ -22,7 +24,7 @@ angular.module('rankYoApp')
     $http(req).then(function (data) {
       //console.log('data='+JSON.stringify(data));
       records =data.data;
-      chart(records, $scope.group,categoryNames);
+      chart(records, $scope.group,$scope.filter,$scope.catagory,categoryNames);
     }, function (data) {
       console.log('data error =' + JSON.stringify(data));
     });
@@ -30,12 +32,11 @@ angular.module('rankYoApp')
     //http://bl.ocks.org/mbostock/3884955#data.tsv
 
     $scope.apply = function(){
-      chart(records, $scope.group,categoryNames);
+      chart(records, $scope.group,$scope.filter,$scope.catagory,categoryNames);
     }
 
-    function chart(data, group,categorieNames) {
-      console.log(categorieNames);
-      var margin = {top: 20, right: 80, bottom: 30, left: 50},
+    function chart(data, group,filter,catagory,categorieNames) {
+       var margin = {top: 20, right: 80, bottom: 30, left: 50},
         width = 960 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
@@ -81,24 +82,27 @@ angular.module('rankYoApp')
       data.forEach(function (d) {
         d.date = new Date(d.date);
         if (group === 'category') {
-          categoryNames.forEach(function(category){
-            if (!lines[category]) {
-              lines[category] = {name: category, values: []};
+          categoryNames.forEach(function(cat){
+            if (!lines[cat]) {
+              lines[cat] = {name: cat, values: []};
             }
-            lines[category].values.push({date: d.date, rank: d[category]});
+            lines[cat].values.push({date: d.date, rank: d[cat]});
           });
         } else {
           if (!lines[d[group]]) {
             lines[d[group]] = {name: d[group], values: []};
           }
-          lines[d[group]].values.push({date: d.date, rank: d.all});
+          lines[d[group]].values.push({date: d.date, rank: d[catagory]});
         }
       });
       var categories = [];
       Object.keys(lines).forEach(function (key) {
+        //need to sum records for the same data
+        
+
         //sort
         lines[key].values.sort(function (a, b) {
-          return a.date > b.date
+          return a.date - b.date;
         });
         categories.push(lines[key]);
       });
