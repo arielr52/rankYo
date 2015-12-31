@@ -89,6 +89,19 @@ angular.module('rankYoApp')
             lines[cat].values.push({date: d.date, rank: d[cat]});
           });
         } else {
+          if(filter!==''){
+            if(d[group]!==filter){
+              console.log('d[group] ='+d[group]+', filter='+filter);
+              return;
+            }
+            categoryNames.forEach(function(cat){
+              if (!lines[cat]) {
+                lines[cat] = {name: cat, values: []};
+              }
+              lines[cat].values.push({date: d.date, rank: d[cat]});
+            });
+            return;
+          }
           if (!lines[d[group]]) {
             lines[d[group]] = {name: d[group], values: []};
           }
