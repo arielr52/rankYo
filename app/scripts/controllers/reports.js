@@ -29,7 +29,6 @@ angular.module('rankYoApp')
       var margin = {top: 20, right: 80, bottom: 30, left: 50},
         width = 960 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
-      var parseDate = d3.time.format("%Y%m%d").parse;
 
       var x = d3.time.scale()
         .range([0, width]);
@@ -55,8 +54,7 @@ angular.module('rankYoApp')
         .y(function (d) {
           return y(d.rank);
         });
-
-      var svg = d3.select("body").append("svg")
+      var svg = d3.select("#report").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -76,6 +74,8 @@ angular.module('rankYoApp')
       });
       var categories = [];
       Object.keys(lines).forEach(function (key) {
+        //sort
+        lines[key].values.sort(function(a, b){return a.date>b.date});
         categories.push(lines[key]);
       });
 
@@ -119,8 +119,7 @@ angular.module('rankYoApp')
       city.append("path")
         .attr("class", "line")
         .attr("d", function (d) {
-          console.log('values=' + JSON.stringify(d.values));
-          console.log('line=' + JSON.stringify(line(d.values)));
+        //  console.log('values=' + JSON.stringify(d.values));
           return line(d.values);
         })
         .style("stroke", function (d) {

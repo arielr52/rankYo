@@ -1,58 +1,57 @@
 <h2>Meeting Survey</h2>
 <h4>{{userMessage}}</h4>
-<form class="form-horizontal">
+<form class="form-horizontal" name="myForm" novalidate>
   <div class="panel panel-default">
     <div class="panel-body">
       <div class="form-group">
-        <label for="inputSubject" class="col-sm-3 control-label">Subject</label>
+        <label for="inputSubject" class="col-sm-2 control-label">Subject</label>
 
-        <div class="col-sm-9">
-          <input type="text" class="form-control" id="subject" ng-model="survey.subject">
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="subject" ng-model="survey.subject" required>
         </div>
       </div>
       <div class="form-group">
-        <label for="inputOwner" class="col-sm-3 control-label">Owner</label>
+        <label for="inputOwner" class="col-sm-2 control-label">Owner</label>
 
-        <div class="col-sm-9">
-          <input type="text" class="form-control" id="Owner" ng-model="survey.owner">
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="Owner" ng-model="survey.owner" required>
         </div>
       </div>
       <div class="form-group">
-        <label for="inputDate" class="col-sm-3 control-label">Date</label>
+        <label for="inputDate" class="col-sm-2 control-label">Date</label>
 
-        <div class="col-sm-9">
-          <input type="date" class="form-control" id="date" ng-model="survey.date">
+        <div class="col-sm-8">
+          <input type="date" class="form-control" id="date" ng-model="survey.date" required>
         </div>
       </div>
       <div class="form-group">
-        <label for="inputDuration" class="col-sm-3 control-label">Duration</label>
+        <label for="inputDuration" class="col-sm-2 control-label">Duration</label>
 
-        <div class="col-sm-9">
-          <input type="number" class="form-control" id="duration" placeholder="in minutes" ng-model="survey.duration">
+        <div class="col-sm-8">
+          <input type="number" class="form-control" id="duration" placeholder="in minutes" ng-model="survey.duration" required>
         </div>
       </div>
       <table class="table">
         <tr ng-repeat="item in survey.questions">
           <td>
             <label class="col-sm-12">{{item.question}}</label>
-
             <div class="col-sm-offset-0 col-sm-10">
               <label class="radio-inline">
-                <input type="radio" ng-model="item.select" value="1"> strongly disagree
+                <input type="radio" ng-model="item.select" value="1" ng-required="!item.select"> strongly disagree
               </label>
               <label class="radio-inline">
-                <input type="radio" ng-model="item.select" value="2"> disagree
+                <input type="radio" ng-model="item.select" value="2" ng-required="!item.select"> disagree
               </label>
               <!--
               <label class="radio-inline">
-                <input type="radio" ng-model="item.select" value="3"> neutral
+                <input type="radio" ng-model="item.select" value="3" ng-required="!item.select"> neutral
               </label>
               -->
               <label class="radio-inline">
-                <input type="radio" ng-model="item.select" value="4"> agree
+                <input type="radio" ng-model="item.select" value="4" ng-required="!item.select"> agree
               </label>
               <label class="radio-inline">
-                <input type="radio" ng-model="item.select" value="5"> strongly agree
+                <input type="radio" ng-model="item.select" value="5" ng-required="!item.select"> strongly agree
               </label>
             </div>
           </td>
@@ -61,7 +60,7 @@
       </table>
       <div class="form-group">
         <div class="col-sm-offset-10 col-sm-2">
-          <button class="btn btn-primary" ng-click="submit()">Submit</button>
+          <button class="btn btn-primary" ng-click="submit()" ng-disabled="!myForm.$valid">Submit</button>
         </div>
       </div>
     </div>
