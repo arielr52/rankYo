@@ -8,7 +8,6 @@ const PORT = 8080;
 //We need a function which handles requests and send response
 function handleRequest(request, response) {
   //console.log('It Works!! Path Hit: ' + request.url);
-  //console.log('It Works!! method Hit: ' + request.method);
   // Set CORS headers
   response.setHeader('Access-Control-Allow-Origin', '*');
   response.setHeader('Access-Control-Request-Method', '*');
@@ -22,10 +21,8 @@ function handleRequest(request, response) {
     var body = '';
     request.on('data', function (data) {
       body += data;
-      //console.log("Partial body: " + body);
     });
     request.on('end', function () {
-      //console.log("Body: " + body);
       //need to write to file
       fs.appendFile('survey.json', body + '\n', function (err) {
         if (err) return console.log(err);
@@ -43,25 +40,13 @@ function handleRequest(request, response) {
     });
 
     rd.on('line', function(line) {
-      console.log('line='+line);
       result.push(line);
     });
     rd.on('close', function(line) {
-
-      console.log('result='+result);
-      console.log('result stringify ='+JSON.stringify(result));
-      //response.end(JSON.stringify(result));
+     // console.log('result='+result);
       response.writeHead(200, {"Content-Type": "application/json"});
       response.end('['+result+']');
     });
-/*
-    var readStream = fs.createReadStream('survey.json');
-    response.write('[');
-    readStream.pipe(response, {end: false});
-    readStream.on('end', function () {
-      response.end(']');
-    });
-    */
   } else {
     response.end('It Works!! Path Hit: ' + request.url);
   }
