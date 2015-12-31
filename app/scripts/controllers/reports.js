@@ -98,8 +98,21 @@ angular.module('rankYoApp')
       var categories = [];
       Object.keys(lines).forEach(function (key) {
         //need to sum records for the same data
-        
+        var avgLine ={}
+        lines[key].values.forEach(function (el){
+          if(!avgLine[el.date]){
+            avgLine[el.date] ={date:el.date,rank:0,values:[]};
+          }
+          avgLine[el.date].values.push(el.rank);
+        });
 
+        Object.keys(avgLine).forEach(function (k) {
+          var avg =avgLine[k].values.reduce(function(sum, a) { return sum + a },0)/(avgLine[k].values.length||1);
+          avgLine[k].rank =avg;
+        });
+        lines[key].values = Object.keys(avgLine).map(function(currentValue){
+          return {date:avgLine[currentValue].date,rank:avgLine[currentValue].rank}
+        });
         //sort
         lines[key].values.sort(function (a, b) {
           return a.date - b.date;
