@@ -10,22 +10,31 @@
 angular.module('rankYoApp')
   .controller('ReportsCtrl', ['$scope', '$http', function ($scope, $http) {
 
+    //owner,subject,category
+    $scope.group = 'category';
+    var categoryNames = ['efficiency', 'communication', 'culture', 'engagement', 'all'];
     var req = {
       method: 'GET',
       url: 'http://localhost:8080/api/report'
     }
 
+    var records ={};
     $http(req).then(function (data) {
       //console.log('data='+JSON.stringify(data));
-      chart(data.data);
+      records =data.data;
+      chart(records, $scope.group,categoryNames);
     }, function (data) {
       console.log('data error =' + JSON.stringify(data));
     });
 
     //http://bl.ocks.org/mbostock/3884955#data.tsv
 
+    $scope.apply = function(){
+      chart(records, $scope.group,categoryNames);
+    }
 
-    function chart(data) {
+    function chart(data, group,categorieNames) {
+      console.log(categorieNames);
       var margin = {top: 20, right: 80, bottom: 30, left: 50},
         width = 960 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
@@ -54,28 +63,43 @@ angular.module('rankYoApp')
         .y(function (d) {
           return y(d.rank);
         });
+      d3.select("svg").remove();
       var svg = d3.select("#report").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-      var domain = 'owner';
-      color.domain(d3.keys(data[0]).filter(function (key) {
-        return key === domain;
-      }));
+
+      if (group === 'category') {
+        color.domain(categoryNames);
+      } else {
+        color.domain(d3.keys(data[0]).filter(function (key) {
+          return key === group;
+        }));
+      }
       var lines = {};
       data.forEach(function (d) {
-        // d.date = new Date(d.date);
-        var test = new Date(d.date);
-        if (!lines[d.owner]) {
-          lines[d.owner] = {name: d.owner, values: []};
+        d.date = new Date(d.date);
+        if (group === 'category') {
+          categoryNames.forEach(function(category){
+            if (!lines[category]) {
+              lines[category] = {name: category, values: []};
+            }
+            lines[category].values.push({date: d.date, rank: d[category]});
+          });
+        } else {
+          if (!lines[d[group]]) {
+            lines[d[group]] = {name: d[group], values: []};
+          }
+          lines[d[group]].values.push({date: d.date, rank: d.all});
         }
-        lines[d.owner].values.push({date: test, rank: d.all});
       });
       var categories = [];
       Object.keys(lines).forEach(function (key) {
         //sort
-        lines[key].values.sort(function(a, b){return a.date>b.date});
+        lines[key].values.sort(function (a, b) {
+          return a.date > b.date
+        });
         categories.push(lines[key]);
       });
 
@@ -83,18 +107,7 @@ angular.module('rankYoApp')
         return new Date(d.date);
       }));
 
-      y.domain([
-        d3.min(categories, function (c) {
-          return d3.min(c.values, function (v) {
-            return v.rank;
-          });
-        }),
-        d3.max(categories, function (c) {
-          return d3.max(c.values, function (v) {
-            return v.rank;
-          });
-        })
-      ]);
+      y.domain([1,5]);
 
       svg.append("g")
         .attr("class", "x axis")
@@ -119,7 +132,7 @@ angular.module('rankYoApp')
       city.append("path")
         .attr("class", "line")
         .attr("d", function (d) {
-        //  console.log('values=' + JSON.stringify(d.values));
+          //  console.log('values=' + JSON.stringify(d.values));
           return line(d.values);
         })
         .style("stroke", function (d) {

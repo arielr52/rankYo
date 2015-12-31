@@ -1,3 +1,24 @@
+<h2>Meeting Survey Reports</h2>
 
-  <h2>Meeting Survey Reports</h2>
-  <div id="report"></div>
+<form class="form-horizontal" name="myForm" novalidate>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="form-group">
+        <label for="singleSelect" class="col-sm-2">Group</label>
+        <select class="col-sm-2 selectpicker" name="singleSelect" ng-model="group" required>
+          <option value="owner">Owner</option>
+          <option value="subject">Subject</option>
+          <option value="category">Category</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-2">
+          <button class="btn btn-primary" ng-click="apply()" ng-disabled="!myForm.$valid">Apply</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</form>
+<div id="report"></div>
