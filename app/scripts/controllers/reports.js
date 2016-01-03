@@ -17,7 +17,7 @@ angular.module('rankYoApp')
     var categoryNames = ['all','efficiency', 'communication', 'culture', 'engagement'];
     var req = {
       method: 'GET',
-      url: 'http://localhost:9000/api/report'
+      url: '/api/report'
     }
 
     var records ={};

@@ -66,7 +66,7 @@ angular.module('rankYoApp')
       console.log('survey=' + JSON.stringify($scope.survey));
       var req = {
         method: 'POST',
-        url: 'http://localhost:9000/api/save',
+        url: '/api/save',
         data: survey
       }
 
