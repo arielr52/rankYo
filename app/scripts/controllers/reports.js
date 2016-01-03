@@ -91,7 +91,7 @@ angular.module('rankYoApp')
         } else {
           if(filter!==''){
             if(d[group]!==filter){
-              console.log('d[group] ='+d[group]+', filter='+filter);
+            //  console.log('d[group] ='+d[group]+', filter='+filter);
               return;
             }
             categoryNames.forEach(function(cat){

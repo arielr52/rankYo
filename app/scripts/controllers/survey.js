@@ -8,11 +8,28 @@
  * Controller of the rankYoApp
  */
 angular.module('rankYoApp')
-  .controller('SurveyCtrl', ['$scope', '$http', function ($scope, $http) {
+  .controller('SurveyCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
 
     function reset() {
       $scope.userMessage = '';
       $scope.survey = {};
+      $scope.survey.date = new Date();
+
+      var searchObject = $location.search();
+      //example: http://localhost:9000/#/survey?subject=standup&owner=ariel&date=01/01/2016
+      if (searchObject.subject) {
+        $scope.survey.subject = searchObject.subject;
+      }
+      if (searchObject.owner) {
+        $scope.survey.owner = searchObject.owner;
+      }
+      if (searchObject.date) {
+        var newDate = new Date(searchObject.date);
+        if (newDate) {
+          $scope.survey.date = newDate;
+        }
+      }
+      var searchObject = $location.search();
       $scope.survey.questions = [
         {category: 'efficiency', question: 'The meeting objectives were well understood'},
         {category: 'efficiency', question: 'The meeting objectives have been meet'},
@@ -31,7 +48,7 @@ angular.module('rankYoApp')
 
     $scope.submit = function () {
       var survey = $scope.survey;
-      var avrg = {all:[]};
+      var avrg = {all: []};
       survey.questions.forEach(function (item) {
         if (!avrg[item.category]) {
           avrg[item.category] = [];
@@ -40,8 +57,10 @@ angular.module('rankYoApp')
         avrg.all.push(Number(item.select));
       });
 
-      Object.keys(avrg).forEach(function(key){
-        survey[key] = avrg[key].reduce(function(sum, a) { return sum + a },0)/(avrg[key].length||1);
+      Object.keys(avrg).forEach(function (key) {
+        survey[key] = avrg[key].reduce(function (sum, a) {
+            return sum + a
+          }, 0) / (avrg[key].length || 1);
       });
 
       console.log('survey=' + JSON.stringify($scope.survey));
