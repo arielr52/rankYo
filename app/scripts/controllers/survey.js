@@ -66,13 +66,13 @@ angular.module('rankYoApp')
       console.log('survey=' + JSON.stringify($scope.survey));
       var req = {
         method: 'POST',
-        url: 'http://localhost:8080/api/save',
+        url: 'http://localhost:9000/api/save',
         data: survey
       }
 
       $http(req).then(function (data) {
         //console.log('data='+JSON.stringify(data));
-        //reset();
+        reset();
         $scope.userMessage = 'Thank you for your input ';
       }, function (data) {
         //console.log('data error ='+JSON.stringify(data));
