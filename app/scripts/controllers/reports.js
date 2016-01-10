@@ -29,10 +29,8 @@ angular.module('rankYoApp')
       console.log('data error =' + JSON.stringify(data));
     });
 
-    //owner,subject,category
-    $scope.group = 'category';
-    $scope.filter ='';
-    $scope.catagory ='all';
+
+
     var categoryNames = ['all','efficiency', 'communication', 'culture', 'engagement'];
     var req = {
       method: 'GET',
@@ -48,7 +46,14 @@ angular.module('rankYoApp')
       console.log('data error =' + JSON.stringify(data));
     });
 
-    //http://bl.ocks.org/mbostock/3884955#data.tsv
+    $scope.reset = function(){
+      //owner,subject,category
+      $scope.group = 'category';
+      $scope.filter ='';
+      $scope.catagory ='all';
+    }
+
+    $scope.reset();
 
     $scope.apply = function(){
       chart(records, $scope.group,$scope.filter,$scope.catagory,categoryNames);
@@ -99,6 +104,7 @@ angular.module('rankYoApp')
       }
       var lines = {};
       data.forEach(function (d) {
+        d.skip=false;
         d.date = new Date(d.date);
         if (group === 'category') {
           categoryNames.forEach(function(cat){
@@ -111,6 +117,7 @@ angular.module('rankYoApp')
           if(filter!==''){
             if(d[group]!==filter){
             //  console.log('d[group] ='+d[group]+', filter='+filter);
+              d.skip=true;
               return;
             }
             categoryNames.forEach(function(cat){
@@ -127,6 +134,7 @@ angular.module('rankYoApp')
           lines[d[group]].values.push({date: d.date, rank: d[catagory]});
         }
       });
+      //this is that data that will be used by the report
       var categories = [];
       Object.keys(lines).forEach(function (key) {
         //need to sum records for the same data
@@ -153,7 +161,9 @@ angular.module('rankYoApp')
       });
 
       x.domain(d3.extent(data, function (d) {
-        return new Date(d.date);
+        if(!d.skip){
+          return new Date(d.date);
+        }
       }));
 
       y.domain([1,5]);
