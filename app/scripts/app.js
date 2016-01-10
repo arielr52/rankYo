@@ -19,11 +19,13 @@ angular
       $routeProvider.
       when('/survey', {
         templateUrl: 'views/survey.html',
-        controller: 'SurveyCtrl'
+        controller: 'SurveyCtrl',
+        activetab: 'survey'
       }).
       when('/reports', {
         templateUrl: 'views/reports.html',
-        controller: 'ReportsCtrl'
+        controller: 'ReportsCtrl',
+        activetab: 'reports'
       }).
       otherwise({
         redirectTo: '/survey'
