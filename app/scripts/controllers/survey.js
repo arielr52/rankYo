@@ -15,7 +15,7 @@ angular.module('rankYoApp')
       url: '/api/survey-hints'
     }
 
-    var records ={};
+
     $http(req).then(function (data) {
       //console.log('data='+JSON.stringify(data));
       $scope.owners =data.data.owners;
@@ -23,6 +23,8 @@ angular.module('rankYoApp')
     }, function (data) {
       console.log('data error =' + JSON.stringify(data));
     });
+
+    var records ={};
 
     function reset() {
       $scope.userMessage = '';

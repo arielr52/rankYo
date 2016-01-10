@@ -10,6 +10,25 @@
 angular.module('rankYoApp')
   .controller('ReportsCtrl', ['$scope', '$http', function ($scope, $http) {
 
+    var hints ={owner:[],subject:[],category:[]};
+    $scope.filters = function(group){
+      return hints[group];
+    }
+
+    var req = {
+      method: 'GET',
+      url: '/api/survey-hints'
+    }
+
+
+    $http(req).then(function (data) {
+      //console.log('data='+JSON.stringify(data));
+      hints.owner =data.data.owners;
+      hints.subject =data.data.subjects;
+    }, function (data) {
+      console.log('data error =' + JSON.stringify(data));
+    });
+
     //owner,subject,category
     $scope.group = 'category';
     $scope.filter ='';

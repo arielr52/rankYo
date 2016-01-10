@@ -12,7 +12,8 @@
         </select>
         <label  class="col-sm-1">Filter</label>
         <div class="col-sm-2">
-          <input type="text" class="form-control"  ng-model="filter">
+          <input type="text" ng-disabled="group==='category'" autocomplete="off" class="form-control" id="subject" ng-model="filter" uib-typeahead="item for item in filters(group) | filter:$viewValue | limitTo:8">
+
         </div>
         <label  class="col-sm-1">Catagory</label>
         <select class="col-sm-2 selectpicker" ng-model="catagory" ng-disabled="group==='category'||filter!==''">
