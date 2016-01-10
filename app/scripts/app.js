@@ -11,18 +11,21 @@
 angular
   .module('rankYoApp', [
     'ngAnimate',
-    'ngRoute'
+    'ngRoute',
+    'ui.bootstrap'
   ])
   .config(['$routeProvider',
     function($routeProvider) {
       $routeProvider.
       when('/survey', {
         templateUrl: 'views/survey.html',
-        controller: 'SurveyCtrl'
+        controller: 'SurveyCtrl',
+        activetab: 'survey'
       }).
       when('/reports', {
         templateUrl: 'views/reports.html',
-        controller: 'ReportsCtrl'
+        controller: 'ReportsCtrl',
+        activetab: 'reports'
       }).
       otherwise({
         redirectTo: '/survey'

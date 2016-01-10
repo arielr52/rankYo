@@ -7,14 +7,14 @@
         <label for="inputSubject" class="col-sm-2 control-label">Subject</label>
 
         <div class="col-sm-8">
-          <input type="text" class="form-control" id="subject" ng-model="survey.subject" required>
+          <input type="text" class="form-control" id="subject" ng-model="survey.subject" uib-typeahead="item for item in subjects | filter:$viewValue | limitTo:8" required>
         </div>
       </div>
       <div class="form-group">
         <label for="inputOwner" class="col-sm-2 control-label">Owner</label>
 
         <div class="col-sm-8">
-          <input type="text" class="form-control" id="Owner" ng-model="survey.owner" required>
+          <input type="text" class="form-control" id="Owner" ng-model="survey.owner" uib-typeahead="item for item in owners | filter:$viewValue | limitTo:8" required>
         </div>
       </div>
       <div class="form-group">

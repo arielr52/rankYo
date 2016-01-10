@@ -10,6 +10,20 @@
 angular.module('rankYoApp')
   .controller('SurveyCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
 
+    var req = {
+      method: 'GET',
+      url: '/api/survey-hints'
+    }
+
+    var records ={};
+    $http(req).then(function (data) {
+      //console.log('data='+JSON.stringify(data));
+      $scope.owners =data.data.owners;
+      $scope.subjects =data.data.subjects;
+    }, function (data) {
+      console.log('data error =' + JSON.stringify(data));
+    });
+
     function reset() {
       $scope.userMessage = '';
       $scope.survey = {};

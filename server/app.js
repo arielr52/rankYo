@@ -10,6 +10,9 @@ var app = express();
 
 app.set('port', (process.env.PORT || PORT));
 
+if(process.argv[2]){
+  app.set('port', process.argv[2]);
+}
 //app.use(express.static(__dirname + '/app'));
 app.use('/', express.static('app'));
 app.use('/bower_components', express.static('bower_components'));
@@ -46,6 +49,30 @@ app.get('/api/report', function (request, response) {
     // console.log('result='+result);
     response.writeHead(200, {"Content-Type": "application/json"});
     response.end('[' + result + ']');
+  });
+});
+
+app.get('/api/survey-hints', function (request, response) {
+  var result = {owners:[],subjects:[]};
+  var rd = readline.createInterface({
+    input: fs.createReadStream('survey.json'),
+    output: process.stdout,
+    terminal: false
+  });
+
+  rd.on('line', function (line) {
+    var survey = JSON.parse(line);
+    if(result.owners.indexOf(survey.owner)<0){
+      result.owners.push(survey.owner);
+    }
+    if(result.subjects.indexOf(survey.subject)<0){
+      result.subjects.push(survey.subject);
+    }
+
+  });
+  rd.on('close', function (line) {
+    response.writeHead(200, {"Content-Type": "application/json"});
+    response.end(JSON.stringify(result, null, 3));
   });
 });
 
