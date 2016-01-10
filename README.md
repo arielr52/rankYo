@@ -1,25 +1,16 @@
-# rank-yo
+# Build
+npm install
 
-This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
-version 0.15.1.
+# Run
+npm start
 
-## Build & development
+# To assign a different port then 9000, for example 80
+npm start 80
 
-Run `grunt` for building and `grunt serve` for preview.
-
-## Testing
-
-Running `grunt test` will run the unit tests with karma.
+# Reports are stored in survey.json
 
 
-
-
-...
-
-# node-js-getting-started
-
-A barebones Node.js app using [Express 4](http://expressjs.com/).
-
+#For development  
 This application supports the [Getting Started with Node on Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs) article - check it out.
 
 ## Running Locally

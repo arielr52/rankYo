@@ -11,7 +11,8 @@
 angular
   .module('rankYoApp', [
     'ngAnimate',
-    'ngRoute'
+    'ngRoute',
+    'ui.bootstrap'
   ])
   .config(['$routeProvider',
     function($routeProvider) {
